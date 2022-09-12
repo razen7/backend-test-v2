@@ -29,6 +29,12 @@ URL_Router.post('/', async (req, res) => {
     }
 });
 
+// Get Overdue Issues
+URL_Router.get('/overdue', async (req, res) => {
+    const issues = await issueModel.find({ due_date: { $lte: new Date() } })
+    res.status(201).send(issues);
+});
+
 // get details of issue by ID
 URL_Router.get('/:id', async (req, res) => {
     const existingIssue = await issueModel.findById(req.params.id)
@@ -51,15 +57,6 @@ URL_Router.get('/', async (req, res) => {
     res.status(201).send(issues);
 });
 
-// Get Overdue Issues
-URL_Router.get('/overdue', async (req, res) => {
-    res.send('hi');
-    // console.log('Hi! Hi! Hi!');
-    // let curDate = new Date().toLocaleString().split(',')[0];
-    // { due_date: { $gte: curDate } }
-    // const issues = await issueModel.find()
 
-    // res.status(201).send(issues);
-});
 
 module.exports = URL_Router;
